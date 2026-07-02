@@ -1,0 +1,17 @@
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+crash.log
+crash.*.log
+
+*.tfvars
+!terraform.tfvars.example
+*.tfvars.json
+
+# Credenciales
+*.pem
+*.key
+*.json
+!package.json
