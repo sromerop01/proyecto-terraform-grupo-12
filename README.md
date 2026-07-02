@@ -1,1 +1,1 @@
-# proyecto-terraform-gurpo-12
+# proyecto-terraform-grupo-12
