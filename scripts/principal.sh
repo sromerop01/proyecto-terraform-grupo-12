@@ -1,10 +1,23 @@
 #!/bin/bash
 set -e
 
-apt-get update
+# Esperar a que la red esté lista
+sleep 20
+
+# Evitar prompts interactivos durante instalación
+export DEBIAN_FRONTEND=noninteractive
+
+# Actualizar e instalar nginx con reintentos
+for i in 1 2 3; do
+  apt-get update -y && break
+  echo "Intento $i fallido, reintentando en 10s..."
+  sleep 10
+done
+
 apt-get install -y nginx
 
-cat <<'HTML' > /var/www/html/index.html
+# Crear página principal
+cat > /var/www/html/index.html << 'HTML'
 <!DOCTYPE html>
 <html lang="es">
 <head><meta charset="UTF-8"><title>Servicio Principal</title></head>
@@ -14,8 +27,8 @@ cat <<'HTML' > /var/www/html/index.html
 </html>
 HTML
 
-# Endpoint de salud para el Load Balancer
-cat <<'CONF' > /etc/nginx/sites-available/default
+# Configurar nginx con endpoint /healthz
+cat > /etc/nginx/sites-available/default << 'CONF'
 server {
     listen 80 default_server;
     root /var/www/html;
@@ -32,5 +45,8 @@ server {
 }
 CONF
 
-systemctl restart nginx
+# Iniciar nginx
 systemctl enable nginx
+systemctl restart nginx
+
+echo "Startup script completado exitosamente"
