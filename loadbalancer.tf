@@ -1,8 +1,5 @@
-# ---------------------------------------------------------------------------
-# Health checks — apuntan a /healthz, NUNCA a "/", porque el servicio de
-# contingencia devuelve 503 en "/" a propósito.
-# ---------------------------------------------------------------------------
 
+# Health checks 
 resource "google_compute_health_check" "principal" {
   name                = "hc-servicio-principal"
   timeout_sec         = 5
@@ -29,11 +26,9 @@ resource "google_compute_health_check" "contingencia" {
   }
 }
 
-# ---------------------------------------------------------------------------
 # Backend services — session_affinity = NONE es clave para el Escenario 3:
 # sin esto, el LB podría "pegar" a un usuario siempre al mismo backend en
 # vez de alternar en cada refresh.
-# ---------------------------------------------------------------------------
 
 resource "google_compute_backend_service" "principal" {
   name                  = "backend-servicio-principal"
@@ -63,11 +58,7 @@ resource "google_compute_backend_service" "contingencia" {
   }
 }
 
-# ---------------------------------------------------------------------------
-# URL Map — aquí es donde vive el "reparto" de tráfico. Los pesos vienen
-# directo de variables.tf / terraform.tfvars, nunca hardcodeados.
-# ---------------------------------------------------------------------------
-
+# URL Map
 resource "google_compute_url_map" "default" {
   name = "url-map-proyecto-terraform"
 

@@ -1,5 +1,3 @@
-# Copia este archivo como terraform.tfvars y ajusta project_id.
-# NO subas terraform.tfvars real a GitHub (ver .gitignore).
 
 project_id = "id-tu-project-de-gcp"
 region     = "us-central1"

@@ -24,7 +24,7 @@ variable "machine_type" {
 }
 
 # Control de tráfico
-# Son las variables que cambian entre los 3 escenarios de evaluación (100-0, 0-100, 50-50).
+# Son las variables que cambian entre los 3 escenarios de evaluación (100-0, 0-100, 50-50)
 variable "peso_principal" {
   description = "Peso relativo del tráfico hacia el Servicio Principal (0-1000)"
   type        = number
